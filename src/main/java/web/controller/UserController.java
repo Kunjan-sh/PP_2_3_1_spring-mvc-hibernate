@@ -34,17 +34,13 @@ public class UserController {
     }
 
     @PostMapping("/addUser")
-    public String addUser(@RequestParam("name") String name, @RequestParam("surname") String surname, @RequestParam("age") int age, Model model) {
-        User user = new User();
-        user.setName(name);
-        user.setSurname(surname);
-        user.setAge(age);
-        userService.addUser(user);
+    public String addUser(@RequestParam("name") String name, @RequestParam("surname") String surname, @RequestParam("age") int age) {
+        userService.addUser(name, surname, age);
         return "redirect:/";
     }
 
     @PostMapping("/deleteUser")
-    public String deleteUser(@RequestParam("id") int id, Model model) {
+    public String deleteUser(@RequestParam("id") int id) {
         userService.deleteUser(id);
         return "redirect:/";
     }
@@ -55,20 +51,11 @@ public class UserController {
     }
 
     @PostMapping("/updateUser")
-    public String updateUser(@RequestParam("id") int id, @RequestParam(value = "name", required = false) String name, @RequestParam(value = "surname", required = false) String surname, @RequestParam(value = "age", required = false) Integer age) {
-        User user = userService.getUser(id);
-        if (user != null) {
-            if (name != null && !name.isEmpty()) {
-                user.setName(name);
-            }
-            if (surname != null && !surname.isEmpty()) {
-                user.setSurname(surname);
-            }
-            if (age != null) {
-                user.setAge(age);
-            }
-            userService.updateUser(user);
-        }
+    public String updateUser(@RequestParam("id") int id,
+                             @RequestParam(value = "name", required = false) String name,
+                             @RequestParam(value = "surname", required = false) String surname,
+                             @RequestParam(value = "age", required = false) Integer age) {
+        userService.updateUser(id, name, surname, age);
         return "redirect:/";
     }
 
